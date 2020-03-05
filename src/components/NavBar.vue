@@ -13,8 +13,25 @@
             </v-btn> 
         </v-toolbar>
 
-        <v-navigation-drawer app temporary v-model="drawer" class="deep-purple accent-4">
-            <p>test</p>
+        <v-navigation-drawer app temporary dark v-model="drawer" class="primary">
+            <v-list>
+              <v-list-item
+                v-for="list in lists"
+                :key="list.text"
+                link
+                :to="list.route"
+              >
+
+              <v-list-item-icon>
+                <v-icon>{{ list.icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>{{ list.text }}</v-list-item-title>
+              </v-list-item-content>
+
+              </v-list-item>
+            </v-list>
         </v-navigation-drawer>
     </nav>
 </template>
@@ -24,6 +41,11 @@ export default {
     data() {
         return {
             drawer: false,
+            lists: [
+              { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/'},
+              { icon: 'mdi-folder-multiple', text: 'Project', route: '/project'},
+              { icon: 'mdi-account-group', text: 'Team', route: '/team'},
+            ]
         };
     }
 }
