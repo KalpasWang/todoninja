@@ -1,6 +1,9 @@
 <template>
   <div class="team">
-    <h1>Team</h1>
+    <h1 class="display-1 grey--text">Team</h1>
+    <v-container fluid>
+      content
+    </v-container>
   </div>
 </template>
 
