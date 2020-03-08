@@ -2,7 +2,7 @@
   <v-app class="grey lighten-4">
     <NavBar />
     <v-content class="grey lighten-4">
-      <v-container class="mx-6 my-5">
+      <v-container class="mx-auto my-5">
         <router-view></router-view>
       </v-container>
     </v-content>

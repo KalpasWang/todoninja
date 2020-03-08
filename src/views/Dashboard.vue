@@ -1,22 +1,24 @@
 <template>
   <div class="dashboard">
     <h1 class="display-1 grey--text">Dashboard</h1>
-    <v-container fluid class="my-5"> 
-      <v-card flat v-for="project in projects" :key="project.title">
-        <v-row class="pa-3" border="left" colored-border :color="`${colors[project.status]}`">
-          <v-col xs="12" sm="12" md="6">
+    <v-container fluid class="mx-auto my-5"> 
+      <v-alert v-for="project in projects" :key="project.title" width="90%" border="left" 
+        colored-border :color="`${colors[project.status]}`" elevation="2" class="py-0 mx-auto"
+      >
+        <v-row>
+          <v-col cols="12" sm="12" md="6">
             <div class="caption grey--text">Project Title</div>
             <div>{{ project.title }}</div>
           </v-col>
-          <v-col xs="6" sm="4" md="2">
+          <v-col cols="6" sm="4" md="2">
             <div class="caption grey--text">Person</div>
             <div>{{ project.person }}</div>
           </v-col>
-          <v-col xs="6" sm="4" md="2">
+          <v-col cols="6" sm="4" md="2">
             <div class="caption grey--text">Due Date</div>
             <div>{{ project.due }}</div>
           </v-col>
-          <v-col xs="6" sm="4" md="2">
+          <v-col cols="6" sm="4" md="2">
             <div class="caption grey--text">Status</div>
             <v-chip class="ma-2" :color="`${colors[project.status]}`" text-color="white">
               <v-avatar left>
@@ -26,8 +28,7 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-divider></v-divider>
-      </v-card>
+      </v-alert>
     </v-container>
   </div>
 </template>
