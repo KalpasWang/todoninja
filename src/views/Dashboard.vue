@@ -2,6 +2,27 @@
   <div class="dashboard">
     <h1 class="display-1 grey--text">Dashboard</h1>
     <v-container fluid class="mx-auto my-5"> 
+      
+      <div class="options mx-auto mb-5">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" transparent depressed>
+              <v-icon left>mdi-sort</v-icon>
+              Order By
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in sortings"
+              :key="index"
+              @click="item.method"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+
       <v-alert v-for="project in projects" :key="project.title" width="90%" border="left" 
         colored-border :color="`${colors[project.status]}`" elevation="2" class="py-0 mx-auto"
       >
@@ -56,7 +77,17 @@ export default {
         ongoing: 'green ligthen-3',
         complete: 'indigo lighten-3',
         overdue: 'red lighten-1'
-      }
+      },
+      sortings: [
+        { title: 'By Person', method: 'sorBy("title")' },
+        { title: 'By Project', method: 'sorBy("person")' }
+      ]
+    }
+  },
+
+  methods: {
+    sortBy(prop) {
+      this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
     }
   }
 }
@@ -84,5 +115,9 @@ export default {
 }
 .v-chip.overdue{
   background: #f83e70;
+}
+
+.options {
+  width: 90%;
 }
 </style>
