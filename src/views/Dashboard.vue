@@ -9,13 +9,14 @@
             <v-btn v-on="on" transparent depressed>
               <v-icon left>mdi-sort</v-icon>
               Order By
+              <v-icon>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list>
             <v-list-item
               v-for="(item, index) in sortings"
               :key="index"
-              @click="item.method"
+              @click="sortBy(item.prop)"
             >
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
@@ -23,33 +24,36 @@
         </v-menu>
       </div>
 
-      <v-alert v-for="project in projects" :key="project.title" width="90%" border="left" 
-        colored-border :color="`${colors[project.status]}`" elevation="2" class="py-0 mx-auto"
-      >
-        <v-row>
-          <v-col cols="12" sm="12" md="6">
-            <div class="caption grey--text">Project Title</div>
-            <div>{{ project.title }}</div>
-          </v-col>
-          <v-col cols="6" sm="4" md="2">
-            <div class="caption grey--text">Person</div>
-            <div>{{ project.person }}</div>
-          </v-col>
-          <v-col cols="6" sm="4" md="2">
-            <div class="caption grey--text">Due Date</div>
-            <div>{{ project.due }}</div>
-          </v-col>
-          <v-col cols="6" sm="4" md="2">
-            <div class="caption grey--text">Status</div>
-            <v-chip class="ma-2" :color="`${colors[project.status]}`" text-color="white">
-              <v-avatar left>
-                <v-icon>{{ icons[project.status] }}</v-icon>
-              </v-avatar>
-              {{ project.status }}
-            </v-chip>
-          </v-col>
-        </v-row>
-      </v-alert>
+      <div id="projects">
+        <v-alert v-for="project in projects" :key="project.title" width="90%" border="left" 
+          colored-border :color="`${colors[project.status]}`" elevation="2" class="py-0 mx-auto"
+        >
+          <v-row>
+            <v-col cols="12" sm="12" md="6">
+              <div class="caption grey--text">Project Title</div>
+              <div>{{ project.title }}</div>
+            </v-col>
+            <v-col cols="6" sm="4" md="2">
+              <div class="caption grey--text">Person</div>
+              <div>{{ project.person }}</div>
+            </v-col>
+            <v-col cols="6" sm="4" md="2">
+              <div class="caption grey--text">Due Date</div>
+              <div>{{ project.due }}</div>
+            </v-col>
+            <v-col cols="6" sm="4" md="2">
+              <div class="caption grey--text">Status</div>
+              <v-chip class="ma-2" :color="`${colors[project.status]}`" text-color="white">
+                <v-avatar left>
+                  <v-icon>{{ icons[project.status] }}</v-icon>
+                </v-avatar>
+                {{ project.status }}
+              </v-chip>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </div>
+      
     </v-container>
   </div>
 </template>
@@ -79,15 +83,16 @@ export default {
         overdue: 'red lighten-1'
       },
       sortings: [
-        { title: 'By Person', method: 'sorBy("title")' },
-        { title: 'By Project', method: 'sorBy("person")' }
+        { title: 'By Person', prop: 'title' },
+        { title: 'By Project', prop: 'person' }
       ]
     }
   },
 
   methods: {
     sortBy(prop) {
-      this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
+      this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
+      for(let i=0; i<100000000000; ) i++;
     }
   }
 }
