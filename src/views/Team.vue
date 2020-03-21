@@ -2,15 +2,13 @@
   <div class="team">
     <h1 class="display-1 grey--text">Team</h1>
     <v-container fluid class="mx-auto my-5">
-      <v-row no-gutters>
+      <v-row>
         <v-col cols="12" sm="6" md="4" lg="3" v-for="member in team" :key="member.name">
-          <v-card z-depth="0" class="ma-3" max-width="300px">
-            <v-img height="200px" class="d-flex justify-center align-center">
-              <v-avatar size="100" class="mx-auto">
+          <v-card z-depth="0" class="text-center my-5 mx-sm-5 mx-auto" max-width="300">
+            <v-avatar size="100" class="mx-auto my-4">
                 <img :src="member.avatar">
-              </v-avatar>
-            </v-img>
-            <v-card-title class="headline">{{ member.name }}</v-card-title>
+            </v-avatar>
+            <v-card-title class="headline justify-center">{{ member.name }}</v-card-title>
             <v-card-subtitle>{{ member.role }}</v-card-subtitle>
             <v-card-actions>
               <v-btn text color="deep-purple">
