@@ -7,6 +7,26 @@
                 <span>Ninja</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-menu bottom offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  depressed
+                  v-on="on"
+                >
+                  Menu
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item
+                  v-for="(list, index) in lists"
+                  :key="index"
+                  :to="list.route"
+                >
+                  <v-list-item-title>{{ list.text }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
             <v-btn depressed>
                 <span>Sign Out</span>    
                 <v-icon right>mdi-exit-to-app</v-icon>
@@ -14,6 +34,12 @@
         </v-toolbar>
 
         <v-navigation-drawer app temporary dark v-model="drawer" class="primary">
+            <v-card elevation="0" class="text-center mx-auto transparent mt-5">
+              <v-avatar size="100" class="mx-auto my-4">
+                  <img src="/avatar-1.png">
+              </v-avatar>
+              <v-card-title class="headline justify-center">The Net Ninja</v-card-title>
+            </v-card>
             <v-list>
               <v-list-item
                 v-for="list in lists"
@@ -51,3 +77,8 @@ export default {
 }
 </script>
 
+<style scoped>
+nav .v-btn {
+  margin-right: 20px;
+}
+</style>

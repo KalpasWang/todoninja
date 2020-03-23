@@ -4,7 +4,7 @@
     <v-container fluid class="mx-auto my-5">
       <v-row>
         <v-col cols="12" sm="6" md="4" lg="3" v-for="member in team" :key="member.name">
-          <v-card z-depth="0" class="text-center my-5 mx-sm-5 mx-auto" max-width="300">
+          <v-card elevation="0" class="text-center my-5 mx-sm-5 mx-auto" max-width="300">
             <v-avatar size="100" class="mx-auto my-4">
                 <img :src="member.avatar">
             </v-avatar>
