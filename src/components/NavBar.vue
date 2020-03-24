@@ -40,6 +40,7 @@
               </v-avatar>
               <v-card-title class="headline justify-center">The Net Ninja</v-card-title>
             </v-card>
+            <Popup class="mx-auto my-4"></Popup>
             <v-list>
               <v-list-item
                 v-for="list in lists"
@@ -63,16 +64,19 @@
 </template>
 
 <script>
+import Popup from './Popup';
+
 export default {
+    components: { Popup },
     data() {
-        return {
-            drawer: false,
-            lists: [
-              { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/'},
-              { icon: 'mdi-folder-multiple', text: 'Project', route: '/project'},
-              { icon: 'mdi-account-group', text: 'Team', route: '/team'},
-            ]
-        };
+      return {
+          drawer: false,
+          lists: [
+            { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/'},
+            { icon: 'mdi-folder-multiple', text: 'Project', route: '/project'},
+            { icon: 'mdi-account-group', text: 'Team', route: '/team'},
+          ]
+      };
     }
 }
 </script>
