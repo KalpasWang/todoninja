@@ -27,8 +27,30 @@
           <v-form class="px-3">
           <v-text-field v-model="title" label="Title" prepend-icon="mdi-folder"></v-text-field>
           <v-textarea v-model="content" label="Information" prepend-icon="mdi-pencil"></v-textarea>
-          <v-spacer></v-spacer>
-          <!-- <v-btn flat @click="submit" class="success mx-0 mt-3">Add Project</v-btn> -->
+          <!-- <v-spacer></v-spacer> -->
+          <v-menu
+            ref="menu"
+            v-model="menuDatePicker"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="date"
+                label="Date"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menuDatePicker = false">Cancel</v-btn>
+              <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+            </v-date-picker>
+          </v-menu>
         </v-form>
         </v-card-text>
 
@@ -55,13 +77,15 @@ export default {
     return {
       dialog: false,
       title: '',
-      content: ''
+      content: '',
+      date: null,
+      menuDatePicker: false
     }
   },
   methods: {
     submit() {
       this.dialog = false;
-      alert(`${this.title}\n${this.content}`);
+      alert(`${this.title}\n${this.content}\n${this.date}`);
     }
   }
 }
