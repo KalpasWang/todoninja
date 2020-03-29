@@ -25,33 +25,53 @@
 
         <v-card-text>
           <v-form class="px-3">
-          <v-text-field v-model="title" label="Title" prepend-icon="mdi-folder"></v-text-field>
-          <v-textarea v-model="content" label="Information" prepend-icon="mdi-pencil"></v-textarea>
-          <!-- <v-spacer></v-spacer> -->
-          <v-menu
-            ref="menu"
-            v-model="menuDatePicker"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="date"
-                label="Date"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="date" no-title scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="menuDatePicker = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
-            </v-date-picker>
-          </v-menu>
-        </v-form>
+            <v-text-field 
+              v-model="title" 
+              :error-messages="titleErrors"
+              label="Title" 
+              required 
+              prepend-icon="mdi-folder"
+              @input="$v.title.$touch()"
+              @blur="$v.title.$touch()"
+            ></v-text-field>
+            <v-textarea 
+              v-model="content" 
+              :error-messages="contentErrors"
+              label="Information" 
+              required 
+              :counter="5" 
+              prepend-icon="mdi-pencil"
+              @input="$v.content.$touch()"
+              @blur="$v.content.$touch()"
+            ></v-textarea>
+            <v-menu
+              ref="menu"
+              v-model="menuDatePicker"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="date"
+                  :error-messages="dateErrors"
+                  label="Date"
+                  prepend-icon="mdi-calendar"
+                  required
+                  readonly
+                  v-on="on"
+                  @input="$v.date.$touch()"
+                  @blur="$v.date.$touch()"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="date" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menuDatePicker = false">Cancel</v-btn>
+                <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-form>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -72,7 +92,18 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { required, minLength } from 'vuelidate/lib/validators'
+
 export default {
+  mixins: [validationMixin],
+
+  validations: {
+    title: { required },
+    content: { required, minLength: minLength(5) },
+    date: { required }
+  },
+
   data() {
     return {
       dialog: false,
@@ -82,8 +113,30 @@ export default {
       menuDatePicker: false
     }
   },
+
+  computed: {
+    titleErrors () {
+      const errors = [];
+      if (!this.$v.title.$dirty) return errors;
+      !this.$v.title.required && errors.push('Title is required.');
+      return errors;
+    },
+    contentErrors () {
+      const errors = [];
+      if (!this.$v.content.$dirty) return errors;
+      !this.$v.content.required && errors.push('Content is required.');
+      !this.$v.name.minLength && errors.push('Infomation must at least have 5 characters.');
+      return errors;
+    },
+    dateErrors () {
+      const errors = [];
+      return errors;
+    }
+  },
+
   methods: {
     submit() {
+      this.$v.$touch();
       this.dialog = false;
       alert(`${this.title}\n${this.content}\n${this.date}`);
     }
