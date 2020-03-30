@@ -78,6 +78,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn color="success" text @click="clear">Clear</v-btn>
           <v-btn
             color="success"
             text
@@ -100,7 +101,10 @@ export default {
 
   validations: {
     title: { required },
-    content: { required, minLength: minLength(5) },
+    content: { 
+      required, 
+      minLength: minLength(5) 
+    },
     date: { required }
   },
 
@@ -125,11 +129,13 @@ export default {
       const errors = [];
       if (!this.$v.content.$dirty) return errors;
       !this.$v.content.required && errors.push('Content is required.');
-      !this.$v.name.minLength && errors.push('Infomation must at least have 5 characters.');
+      !this.$v.content.minLength && errors.push('Infomation must at least have 5 characters.');
       return errors;
     },
     dateErrors () {
       const errors = [];
+      if (!this.$v.date.$dirty) return errors;
+      !this.$v.date.required && errors.push('Date is required.');
       return errors;
     }
   },
@@ -137,9 +143,17 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      this.dialog = false;
-      alert(`${this.title}\n${this.content}\n${this.date}`);
-    }
+      if(!this.$v.$invalid) {
+        this.dialog = false;
+        alert(`${this.title}\n${this.content}\n${this.date}`);
+      }
+    },
+    clear () {
+      this.$v.$reset();
+      this.title = '';
+      this.content = '';
+      this.date = null;
+    },
   }
 }
 </script>
