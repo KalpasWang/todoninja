@@ -24,7 +24,7 @@
         </v-menu>
       </div>
 
-      <div id="projects">
+      <div v-if="show" id="projects">
         <v-alert v-for="project in projects" :key="project.title" width="90%" border="left" 
           colored-border :color="`${colors[project.status]}`" elevation="2" class="py-0 mx-auto"
         >
@@ -53,6 +53,9 @@
           </v-row>
         </v-alert>
       </div>
+      <div v-else id="loading" class="mx-auto my-5">
+        <img class="d-block mx-auto my-5" src="../assets/spinner2.gif">
+      </div>
       
     </v-container>
   </div>
@@ -66,6 +69,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      show: true,
       projects: [
         { title: 'Design a new website', person: 'The Net Ninja', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
         { title: 'Code up the homepage', person: 'Chun Li', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
@@ -91,8 +95,12 @@ export default {
 
   methods: {
     sortBy(prop) {
-      this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
-      for(let i=0; i<100000000000; ) i++;
+      this.show = false;
+      let self = this;
+      setTimeout(function() {
+        self.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
+        self.show = true;
+      }, 1000);
     }
   }
 }
